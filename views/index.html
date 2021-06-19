@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funding kart</title>
+    <script defer src="http://localhost:3001/socket.io/socket.io.js"></script>
+<script defer src="client.js"></script>
+
+</head>
+
+<style>
+    .userlist,.chatlist{
+        border:2px solid black;
+        width:400px;
+        min-height:500px;
+        float: left;
+        
+
+    }
+    .chatlist{
+        padding-left: 20px;
+    }
+    .user{
+        padding: 20px;
+    }
+    h2:hover{
+        background-color: blue;
+        color:white;
+    }
+
+</style>
+<body style="">
+    
+
+<h1>Chat APP</h1>
+
+<div style="padding: 20px;">
+
+
+    <input type="text" id="username" placeholder="Name" value="kums">
+    <button onclick="startser()">SUBMIT</button><br><br>
+<div class="userlist">
+
+<div class="user">
+    <h2 onclick="showmessage(this)" style="cursor: pointer; border:2px solid blue;">User1</h2>
+Connect to
+    <button onclick="connectuser(this)">User1</button>
+    <h2 onclick="showmessage(this)" style="cursor: pointer; border:2px solid blue;">User2</h2>
+    Connect to <button onclick="connectuser(this)">User2</button>
+  <h2 onclick="showmessage(this)" style="cursor: pointer; border:2px solid blue;">User3</h2>
+  Connect to    <button onclick="connectuser(this)">User3</button>
+</div>
+
+
+
+
+</div>
+
+<div class="chatlist" id="clist" style="overflow-y: scroll;">
+
+
+    <input type="text" style="padding: 20px;" id="cmsg" placeholder="message">
+<br>
+   
+    <input type="text" style="padding: 20px;" id="croom" placeholder="To">
+    <br>
+
+    <button onclick="sendtoserver()">SEND</button>
+
+
+</div>
+
+
+</div>
+</body>
+</html>
