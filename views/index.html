@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Funding kart</title>
-    <script defer src="http://localhost:3001/socket.io/socket.io.js"></script>
+    <script defer src="https://chatapp134.herokuapp.com/socket.io/socket.io.js"></script>
 <script defer src="client.js"></script>
 
 </head>
@@ -44,13 +44,12 @@
 <div class="userlist">
 
 <div class="user">
-    <h2 onclick="showmessage(this)" style="cursor: pointer; border:2px solid blue;">User1</h2>
-Connect to
-    <button onclick="connectuser(this)">User1</button>
-    <h2 onclick="showmessage(this)" style="cursor: pointer; border:2px solid blue;">User2</h2>
-    Connect to <button onclick="connectuser(this)">User2</button>
-  <h2 onclick="showmessage(this)" style="cursor: pointer; border:2px solid blue;">User3</h2>
-  Connect to    <button onclick="connectuser(this)">User3</button>
+    
+<input type="text" id="con_user" style="padding: 20px;border:2px solid blueviolet;" placeholder="username">
+    <button onclick="connectuser(this)">Connect</button>
+    <br>
+  
+
 </div>
 
 
@@ -69,6 +68,10 @@ Connect to
 
     <button onclick="sendtoserver()">SEND</button>
 
+
+    <br><br><br>
+
+    <button onclick="showuserstatus()">Check User Status</button>
 
 </div>
 

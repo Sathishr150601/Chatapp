@@ -1,6 +1,11 @@
 const user=prompt("Enter your name : ")
 
-const socket=io("http://localhost:3001",{
+//const URL="https://chatapp134.herokuapp.com";
+const URL="http://localhost:3000";
+
+
+
+const socket=io(URL,{
     query:{
      
         email:user
@@ -9,10 +14,14 @@ const socket=io("http://localhost:3001",{
 })
 
 function connectuser(a){
-    console.log("connecting : ",a.innerHTML)
-    socket.emit("connect-user",a.innerHTML,response=>{
+
+    let us_name=document.getElementById("con_user").value;
+    console.log("connecting : ",us_name)
+    socket.emit("connect-user",us_name,response=>{
         addmessage(response)
     })
+
+    showuserstatus();
   
 }
 
@@ -37,6 +46,28 @@ socket.on('get-messages',data=>{
 
      
 });
+
+
+socket.on('user-status',udata=>{
+
+    console.log(udata);
+    //addmessage(data.from +" : "+data.message);
+
+    
+});
+
+socket.on('msg-status',data=>{
+
+    console.log(data);
+    //addmessage(data.from +" : "+data.message);
+
+    
+});
+
+
+function showuserstatus(){
+
+}
 
 // socket.emit("connect-user",{email:a});
 

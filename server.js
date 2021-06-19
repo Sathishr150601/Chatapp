@@ -15,7 +15,8 @@ app.set('view engine','ejs')
 app.get('/',(req,res)=>
 {
     //res.sendFile(__dirname+'/views/index.html');
-res.render('index')
+
+    res.json("Chat App")
 
 })
 
@@ -44,6 +45,8 @@ io.on("connection",(socket)=>{
 
     var email=socket.handshake.query.email;
 
+
+   
     pending.forEach(element => {
         if(element.user1 ==email ||element.user2 ==email ){
             socket.join(element.roomid);
@@ -63,6 +66,8 @@ socket.on("send-message",(message,user)=>{
         {
 
             console.log("Sending msg to "+user ,"room",element.roomid,"message",message)
+
+    socket.emit("msg-status","Sending msg to "+user ,"room",element.roomid,"message",message);
 
     socket.to(element.roomid).emit('get-messages',{
         from:socket.handshake.query.email,
@@ -115,6 +120,7 @@ pending.push({
 check("User joined to room :  "+sock_id)
 console.log("pending-connect  1 ",pending)
 
+socket.emit("user-status",pending);
 
 
         }
@@ -134,6 +140,7 @@ pending.push({
 check("New User joined to room :  "+socket.id+"RO")
 console.log("pending-connect 3 ",pending)
 
+socket.emit("user-status",pending);
 }
     
     
