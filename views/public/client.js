@@ -13,12 +13,23 @@ const socket=io(URL,{
     }
 })
 
+
+socket.on('get-messages',data=>{
+
+    console.log("got message : ",data);
+    addmessage(data.from +" : "+data.message);
+
+    
+});
+
 function connectuser(a){
 
     let us_name=document.getElementById("con_user").value;
     console.log("connecting : ",us_name)
     socket.emit("connect-user",us_name,response=>{
         addmessage(response)
+
+        
     })
 
     showuserstatus();
@@ -39,13 +50,7 @@ console.log(document.getElementById("croom").value)
 }
 // var a =prompt("Enter your name")
 
-socket.on('get-messages',data=>{
 
-     console.log("got message : ",data);
-     addmessage(data.from +" : "+data.message);
-
-     
-});
 
 
 socket.on('user-status',udata=>{

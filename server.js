@@ -1,28 +1,33 @@
 const express = require('express');
 const app = express();
+const condb=require('./models/db')
+const chatdb=require('./routes/chatfunctions')
 
+const chats = require('./models/chat');
 var randomstring = require("randomstring");
 
-
+condb();
 
 app.use(express.json({ extended: false }));
-
-//app.use(express.urlencoded({extended:false}));
 
 app.set('view engine','ejs')
 
 
 app.get('/',(req,res)=>
 {
-    //res.sendFile(__dirname+'/views/index.html');
-
     res.json("Chat App")
 
 })
 
-const pending=[]
 
+var pending;
+async function setpending(){
 
+    
+}
+
+ 
+   
 
 
 
@@ -37,24 +42,49 @@ const io=require('socket.io')(Port,{
 
 //Connect to socket
 
-io.on("connection",(socket)=>{
+io.on("connection",async  (socket)=>{
 
+    await chats.find({})
+    .then(result=>{
+        pending=result
+    })
+    .catch(err=>{
+    
+       console.log(err);
+    })
+    
+console.log(pending)
     console.log("User Connected " + socket.id,socket.handshake.query.email)
 
    // console.log("pending",pending)
 
     var email=socket.handshake.query.email;
 
-
-   
     pending.forEach(element => {
         if(element.user1 ==email ||element.user2 ==email ){
+
             socket.join(element.roomid);
-            console.log(email+" already has messages \t joined to chat "+"'"+element.roomid+"'")
+            let chatroomid=element.roomid;
+            console.log(email+" already has messages \t joined to chat "+"'"+element.roomid+"'",element.chats)
+
+            element.chats.forEach(ce=>{
+
+                console.log('chats : ',ce)
+
+                socket.emit('get-messages',{
+                from:ce.from,
+                    to:ce.to,
+                    message:ce.message
+                });
+
+            })
+            
+        
               
         }
 
     });
+
 
 
 
@@ -69,6 +99,7 @@ socket.on("send-message",(message,user)=>{
 
     socket.emit("msg-status","Sending msg to "+user ,"room",element.roomid,"message",message);
 
+    chatdb.savechat(socket.handshake.query.email,user,element.roomid,message)
     socket.to(element.roomid).emit('get-messages',{
         from:socket.handshake.query.email,
         to:user,
@@ -92,8 +123,8 @@ socket.on("connect-user",(receiver,check)=>{
 
     console.log(socket.handshake.query.email,"wants to connect to ",receiver,
     "\nJoined to Chat room : ",socket.id+"RO")
-
-    var flag=1;
+   
+    var flag=true;
 
     if(pending.length>0){
 
@@ -103,14 +134,17 @@ socket.on("connect-user",(receiver,check)=>{
 
             check("User already Joined ")
             console.log("pending-connect 2 ",pending)
-            flag=0
+            flag=false;
+            return;
 
         }
-    })      
-      if(flag==1){
+    })}
+      if(flag){
             
 var sock_id=randomstring.generate();
             socket.join(sock_id);
+
+            chatdb.saveuser(socket.handshake.query.email,receiver,sock_id)
 pending.push({
     roomid:sock_id,
     user1:receiver,
@@ -127,21 +161,8 @@ socket.emit("user-status",pending);
     
 
 
-}
-else{
 
-    socket.join(socket.id+"RO");
-pending.push({
-    roomid:socket.id+"RO",
-    user1:receiver,
-    user2:socket.handshake.query.email
-})
 
-check("New User joined to room :  "+socket.id+"RO")
-console.log("pending-connect 3 ",pending)
-
-socket.emit("user-status",pending);
-}
     
     
 })
@@ -149,5 +170,12 @@ socket.emit("user-status",pending);
 
 
 })
+
+
+
+
+
+
+setpending();
 
 //app.listen(Port, () => console.log('Server started at '+Port));
