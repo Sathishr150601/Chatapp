@@ -64,7 +64,7 @@ async function getuserinfo(){
    await chats.find({})
    .then(result=>{
 
-console.log(result);
+//console.log(result);
 return result;
 
    })
@@ -75,4 +75,18 @@ return result;
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 module.exports={saveuser,savechat,getuserinfo};

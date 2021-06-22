@@ -54,10 +54,26 @@ io.on("connection",async  (socket)=>{
     })
     
 console.log(pending)
+
+
     console.log("User Connected " + socket.id,socket.handshake.query.email)
+    console.log("Connections : ");
+    let connections=[]
+    let name=socket.handshake.query.email;
+    pending.forEach(element => {
+       
+       if(element.user1 ==name || element.user2 ==name ){
+  
+            connections.push(element.user1==name?element.user2:element.user1)
+            socket.emit('get-friends',element.user1==name?element.user2:element.user1)
+             
 
-   // console.log("pending",pending)
+       }
+    });
 
+
+    
+   
     var email=socket.handshake.query.email;
 
     pending.forEach(element => {
@@ -65,12 +81,11 @@ console.log(pending)
 
             socket.join(element.roomid);
             let chatroomid=element.roomid;
-            console.log(email+" already has messages \t joined to chat "+"'"+element.roomid+"'",element.chats)
+            console.log(email+" already has messages \t joined to chat "+"'"+element.roomid+"'")
 
             element.chats.forEach(ce=>{
 
-                console.log('chats : ',ce)
-
+   
                 socket.emit('get-messages',{
                 from:ce.from,
                     to:ce.to,

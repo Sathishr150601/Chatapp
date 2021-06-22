@@ -22,6 +22,15 @@ socket.on('get-messages',data=>{
     
 });
 
+socket.on('get-friends',data=>{
+
+    adduser(data);
+
+    
+});
+
+
+
 function connectuser(a){
 
     let us_name=document.getElementById("con_user").value;
@@ -88,6 +97,17 @@ function showuserstatus(){
 function addmessage(message){
 
     var clist=document.getElementById("clist");
+
+    var h2=document.createElement("h2");
+    h2.appendChild(document.createTextNode(message));
+    clist.appendChild(h2);
+}
+
+
+
+function adduser(message){
+
+    var clist=document.getElementById("ulist1");
 
     var h2=document.createElement("h2");
     h2.appendChild(document.createTextNode(message));
