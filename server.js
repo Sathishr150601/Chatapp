@@ -174,11 +174,6 @@ socket.emit("user-status",pending);
 
         }
     
-
-
-
-
-    
     
 })
 

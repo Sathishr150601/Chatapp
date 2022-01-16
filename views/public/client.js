@@ -1,6 +1,8 @@
 const user=prompt("Enter your name : ")
 
-const URL="https://chatapp134.herokuapp.com";
+
+//new URL
+const URL="https://chatapp783.herokuapp.com";
 //const URL="http://localhost:3000";
 
 

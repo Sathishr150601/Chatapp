@@ -8,7 +8,7 @@ mongoose.Promise = global.Promise;
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 
-const URI ="mongodb+srv://kumaresh:kikida@cluster0.4fnnx.mongodb.net/FundingKart?retryWrites=true&w=majority";
+const URI ="mongodb+srv://kumaresh:kikida@cluster0.4fnnx.mongodb.net/ChatApp?retryWrites=true&w=majority";
 
 const connectDB = async () => {
   await mongoose.connect(URI, {
