@@ -53,7 +53,7 @@ app.post("/sendemail", (req, res) => {
   var mailOptions = {
     from: req.body.email,
     to: req.body.to,
-    subject: "Form data - " + req.body.data[11].value,
+    subject: "Online Consultation Form",
     text: text,
   };
   transporter.sendMail(mailOptions, function (error, info) {
